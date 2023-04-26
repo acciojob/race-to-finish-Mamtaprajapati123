@@ -1,18 +1,20 @@
 window.promises = [];
 
-// Add promises to the array
-for (let i = 1; i <= 5; i++) {
-  const promise = new Promise(resolve => {
-    const randomTime = Math.floor(Math.random() * 5) + 1; // random time between 1 and 5 seconds
-    setTimeout(() => {
-      resolve(randomTime);
-    }, randomTime * 1000); // convert seconds to milliseconds
-  });
-  promises.push(promise);
+// add your promises to the array `promises`
+for (let i = 0; i < 5; i++) {
+  promises.push(
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(`Promise ${i+1}`);
+      }, Math.floor(Math.random() * 5000) + 1000);
+    })
+  );
 }
 
-// Use Promise.any() to wait for the first promise to resolve
-Promise.any(promises).then(result => {
-  const outputDiv = document.getElementById("output");
-  outputDiv.innerHTML = `The first promise to resolve took ${result} seconds.`;
-});
+Promise.any(promises)
+  .then((result) => {
+    document.getElementById("output").textContent = result;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
